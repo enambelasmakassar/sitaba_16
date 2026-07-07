@@ -731,7 +731,7 @@
             <div class="upload-area" id="izin-upload" style="cursor:pointer;">
               <span class="material-symbols-rounded">upload_file</span>
               <p id="izin-upload-label">Surat dokter / surat keterangan</p>
-              <span>JPG, PNG, atau PDF · Maks 5MB</span>
+              <span>JPG, PNG, atau PDF · Maks 200Kb</span>
             </div>
             <input type="file" id="izin-file-input" accept="image/jpeg,image/png,application/pdf" style="display:none;" />
           </div>
@@ -1391,6 +1391,9 @@
 		<div id="hk-daftar-libur">
 		  <!-- diisi JS: daftar hari libur -->
 		</div>
+		<div id="hk-libur-pagination" style="display:flex;align-items:center;justify-content:center;gap:14px;margin-top:10px;">
+		  <!-- diisi JS: tombol Sebelumnya/Selanjutnya + info halaman -->
+		</div>
 		<div style="height:24px;"></div>
 	  </div>
 	</div>
@@ -1413,6 +1416,29 @@
 			<label class="form-label">Keterangan</label>
 			<input type="text" id="libur-keterangan" placeholder="Contoh: Libur Hari Raya Idul Fitri"
 			  style="width:100%;padding:12px 12px;border:1.5px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;font-family:var(--font-main);background:var(--gray-50);outline:none;" />
+		  </div>
+		  <div class="form-group">
+			<label class="form-label">Berlaku Untuk</label>
+			<div style="font-size:11px;color:var(--gray-500);margin-bottom:8px;">
+			  Kosongkan semua centang kalau mau libur berlaku untuk semua role.
+			</div>
+			<div style="display:flex;flex-direction:column;gap:8px;">
+			  <label style="display:flex;align-items:center;gap:8px;font-size:14px;color:var(--gray-800);cursor:pointer;">
+				<input type="checkbox" class="libur-role-check" value="kepsek" checked
+				  style="width:18px;height:18px;accent-color:var(--primary-600);" />
+				Kepala Sekolah
+			  </label>
+			  <label style="display:flex;align-items:center;gap:8px;font-size:14px;color:var(--gray-800);cursor:pointer;">
+				<input type="checkbox" class="libur-role-check" value="guru" checked
+				  style="width:18px;height:18px;accent-color:var(--primary-600);" />
+				Guru
+			  </label>
+			  <label style="display:flex;align-items:center;gap:8px;font-size:14px;color:var(--gray-800);cursor:pointer;">
+				<input type="checkbox" class="libur-role-check" value="pegawai" checked
+				  style="width:18px;height:18px;accent-color:var(--primary-600);" />
+				Pegawai
+			  </label>
+			</div>
 		  </div>
 		  <button class="btn-primary" id="btn-simpan-libur" type="button">
 			<span class="material-symbols-rounded">save</span> Simpan
