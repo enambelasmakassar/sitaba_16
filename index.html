@@ -8,6 +8,9 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="SITABA" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
   <title>SITABA — 16</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -16,7 +19,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-  <link rel="stylesheet" href="style.min.css">
+  <link rel="stylesheet" href="style.css">
   
 </head>
 <body>
@@ -170,6 +173,30 @@
             <div class="hero-status-time" id="hero-waktu-masuk">Masuk 07:15 · Belum pulang</div>
           </div>
           <div class="hero-status-badge" id="hero-badge">Tepat Waktu</div>
+        </div>
+      </div>
+
+      <!-- ============================================================
+           CEK KEHADIRAN HARIAN — Guru/Pegawai/Kepsek (browse hari lain)
+           Terpisah dari Hero Status Card (khusus hari ini).
+           Diisi oleh muatCekHarianGuru() saat renderBeranda()
+      ============================================================ -->
+      <div id="cek-harian-guru-wrap">
+        <div class="section-header" style="margin-top:4px;">
+          <span class="section-title">Cek Kehadiran Harian</span>
+        </div>
+        <div class="admin-list-card" id="cek-harian-guru-card">
+          <div class="admin-filter-bar" id="cek-harian-guru-chips" style="padding:12px 16px 4px;">
+            <button class="filter-chip active" data-range="hari-ini" type="button">Hari Ini</button>
+            <button class="filter-chip" data-range="kemarin" type="button">Kemarin</button>
+          </div>
+          <div style="padding:4px 16px 12px;">
+            <input type="date" id="cek-harian-guru-tanggal"
+              style="width:100%;padding:9px 12px;border:1.5px solid var(--gray-200);border-radius:var(--radius-md);font-size:13px;font-family:var(--font-main);background:var(--gray-50);outline:none;color:var(--gray-700);" />
+          </div>
+          <div id="cek-harian-guru-content">
+            <div class="admin-list-empty">Memuat...</div>
+          </div>
         </div>
       </div>
 
@@ -473,6 +500,41 @@
         </div>
 
       </div><!-- /admin-dashboard-wrap -->
+
+      <!-- ============================================================
+           CEK KEHADIRAN GURU PER HARI — Admin/Kepsek
+           Terpisah dari list "Terlambat"/"Belum Absen" di atas (yang
+           selalu hari ini). Di sini admin bisa pilih guru & tanggal
+           bebas. Diisi oleh muatCekHarianAdmin() saat renderBeranda()
+      ============================================================ -->
+      <div id="cek-harian-admin-wrap" class="hidden">
+        <div class="section-header" style="margin-top:4px;">
+          <span class="section-title">Cek Kehadiran Guru per Hari</span>
+        </div>
+        <div class="admin-list-card" id="cek-harian-admin-card">
+          <div style="padding:12px 16px 8px;position:relative;">
+            <span class="material-symbols-rounded" style="position:absolute;left:26px;top:50%;transform:translateY(-50%);font-size:18px;color:var(--gray-500);pointer-events:none;">person_search</span>
+            <input type="text" id="cek-harian-admin-guru-search" placeholder="Cari nama guru/pegawai..." autocomplete="off"
+              style="width:100%;padding:10px 12px 10px 36px;border:1.5px solid var(--gray-200);border-radius:var(--radius-md);font-size:13px;font-family:var(--font-main);background:var(--gray-50);outline:none;" />
+            <div id="cek-harian-admin-guru-dropdown" style="display:none;position:absolute;z-index:100;left:16px;right:16px;background:#fff;border:1.5px solid var(--gray-200);border-radius:var(--radius-md);box-shadow:var(--shadow-md);max-height:200px;overflow-y:auto;margin-top:4px;"></div>
+          </div>
+          <div id="cek-harian-admin-guru-terpilih" style="display:none;margin:0 16px 10px;padding:6px 10px;background:var(--primary-50);border-radius:var(--radius-sm);font-size:12px;color:var(--primary-700);font-weight:600;align-items:center;justify-content:space-between;">
+            <span id="cek-harian-admin-guru-terpilih-nama"></span>
+            <button type="button" onclick="clearGuruCekHarianAdmin()" style="border:none;background:none;color:var(--primary-700);cursor:pointer;font-size:16px;line-height:1;">×</button>
+          </div>
+          <div class="admin-filter-bar" id="cek-harian-admin-chips" style="padding:0 16px 4px;">
+            <button class="filter-chip active" data-range="hari-ini" type="button">Hari Ini</button>
+            <button class="filter-chip" data-range="kemarin" type="button">Kemarin</button>
+          </div>
+          <div style="padding:4px 16px 12px;">
+            <input type="date" id="cek-harian-admin-tanggal"
+              style="width:100%;padding:9px 12px;border:1.5px solid var(--gray-200);border-radius:var(--radius-md);font-size:13px;font-family:var(--font-main);background:var(--gray-50);outline:none;color:var(--gray-700);" />
+          </div>
+          <div id="cek-harian-admin-content">
+            <div class="admin-list-empty">Pilih guru &amp; tanggal dulu</div>
+          </div>
+        </div>
+      </div>
 
       <!-- Pengumuman Terbaru -->
       <div class="section-header">
@@ -1835,6 +1897,6 @@
 	
 
 </div><!-- #app -->
-<script src="script.obfuscated.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
