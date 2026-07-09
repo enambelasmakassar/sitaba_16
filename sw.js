@@ -1,14 +1,18 @@
 /* ============================================================
-   SITABA — Service Worker (versi minimal, TANPA offline caching)
-   Tujuan file ini cuma satu: memenuhi syarat "installable PWA"
-   di Chrome/Android (harus ada service worker terdaftar + listener
-   'fetch'). Belum melakukan caching apa pun, jadi semua request
-   tetap langsung ke jaringan seperti biasa — perilaku app TIDAK
-   berubah sama sekali dari sebelumnya.
+   SITABA — Service Worker
+   Gabungan dari 2 fungsi:
+   1. PWA installable (versi asli, TANPA offline caching — perilaku
+      app tetap sama seperti sebelumnya, semua request langsung ke
+      jaringan).
+   2. OneSignal Web Push — supaya notifikasi (pengumuman, obrolan,
+      linimasa) bisa muncul walau aplikasi sedang tertutup.
 
-   Kalau nanti mau nambah kemampuan offline (buka app tanpa
-   internet), logic caching ditambahkan di sini belakangan.
+   PENTING: baris importScripts di bawah HARUS berada di baris
+   paling atas file ini (di luar semua event listener) — ini syarat
+   dari OneSignal SDK.
    ============================================================ */
+
+importScripts("https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.sw.js");
 
 const SW_VERSION = 'sitaba-v1';
 
