@@ -20,7 +20,27 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <link rel="stylesheet" href="style.min.css">
-  
+
+  <!-- OneSignal — Web Push Notification (pengumuman, obrolan, linimasa) -->
+  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+  <script>
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+    OneSignalDeferred.push(async function (OneSignal) {
+      await OneSignal.init({
+        appId: "bc5d8a9e-b69f-4625-96d4-538f18984953",
+        safari_web_id: "web.onesignal.auto.5f8d50ad-7ec3-4f1c-a2de-134e8949294e",
+        // Pakai sw.js yang sudah ada (jangan daftarkan service worker terpisah)
+        serviceWorkerParam: { scope: "/" },
+        serviceWorkerPath: "sw.js",
+        // Tombol lonceng mengambang bawaan dimatikan — SITABA pakai
+        // tombol lonceng di header sendiri (lihat script.js)
+        notifyButton: {
+          enable: false
+        }
+      });
+    });
+  </script>
+
 </head>
 <body>
 
@@ -52,15 +72,15 @@
         <label class="form-label" for="input-email">Email</label>
         <div class="input-wrap">
           <span class="material-symbols-rounded input-icon">mail</span>
-          <input type="email" id="input-email" placeholder="Masukkan email terdaftar" autocomplete="username" />
+          <input type="email" id="input-email" placeholder="nama@sekolah.sch.id" autocomplete="username" />
         </div>
       </div>
 
       <div class="form-group">
-        <label class="form-label" for="input-password">NIP/Kata Sandi</label>
+        <label class="form-label" for="input-password">Kata Sandi</label>
         <div class="input-wrap">
           <span class="material-symbols-rounded input-icon">lock</span>
-          <input type="password" id="input-password" placeholder="NIP/Kata sandi terdaftar" autocomplete="current-password" />
+          <input type="password" id="input-password" placeholder="••••••••" autocomplete="current-password" />
           <button class="input-toggle" type="button" id="toggle-password">
             <span class="material-symbols-rounded">visibility</span>
           </button>
@@ -73,7 +93,7 @@
       </button>
 
       <div class="login-footer">
-        <span>Lupa Akun Sitaba? Hubungi admin sekolah</span>
+        <span>Lupa kata sandi? Hubungi admin sekolah</span>
         <button type="button" class="login-info-btn" id="btn-info-app" title="Informasi Aplikasi">
           <span class="material-symbols-rounded">info</span>
         </button>
