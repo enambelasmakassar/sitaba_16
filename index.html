@@ -72,15 +72,15 @@
         <label class="form-label" for="input-email">Email</label>
         <div class="input-wrap">
           <span class="material-symbols-rounded input-icon">mail</span>
-          <input type="email" id="input-email" placeholder="nama@sekolah.sch.id" autocomplete="username" />
+          <input type="email" id="input-email" placeholder="Masukkan email terdaftar" autocomplete="username" />
         </div>
       </div>
 
       <div class="form-group">
-        <label class="form-label" for="input-password">Kata Sandi</label>
+        <label class="form-label" for="input-password">NIP/Kata Sandi</label>
         <div class="input-wrap">
           <span class="material-symbols-rounded input-icon">lock</span>
-          <input type="password" id="input-password" placeholder="••••••••" autocomplete="current-password" />
+          <input type="password" id="input-password" placeholder="Masukkan NIP/Kata sandi" autocomplete="current-password" />
           <button class="input-toggle" type="button" id="toggle-password">
             <span class="material-symbols-rounded">visibility</span>
           </button>
@@ -93,7 +93,7 @@
       </button>
 
       <div class="login-footer">
-        <span>Lupa kata sandi? Hubungi admin sekolah</span>
+        <span>Lupa Akun Sitaba? Hubungi admin sekolah</span>
         <button type="button" class="login-info-btn" id="btn-info-app" title="Informasi Aplikasi">
           <span class="material-symbols-rounded">info</span>
         </button>
@@ -122,7 +122,7 @@
         <div style="background:var(--gray-50);border-radius:var(--radius-md);padding:14px;margin-bottom:12px;">
           <div style="font-size:11px;font-weight:700;color:var(--gray-500);text-transform:uppercase;letter-spacing:0.03em;margin-bottom:6px;">Pembuat Aplikasi</div>
           <div style="font-size:14px;font-weight:700;color:var(--gray-900);">Muhammad Hasratul</div>
-          <div style="font-size:12.5px;color:var(--gray-600);margin-top:2px;">Guru · UPT SPF SMP Negeri 16 Makassar</div>
+          <div style="font-size:12.5px;color:var(--gray-600);margin-top:2px;">Guru · UPTD SPF SMP Negeri 16 Makassar</div>
         </div>
 
         <a href="https://wa.me/6285259259767" target="_blank" rel="noopener" style="text-decoration:none;">
@@ -458,9 +458,28 @@
             </div>
             <div class="admin-list-count gray" id="admin-belum-count">0</div>
           </div>
-          <div id="admin-belum-list">
+
+          <div class="admin-filter-bar">
+            <button class="filter-chip active" data-belum-role="semua">Semua Role</button>
+            <button class="filter-chip" data-belum-role="guru">Guru</button>
+            <button class="filter-chip" data-belum-role="pegawai">Pegawai</button>
+          </div>
+          <div class="admin-filter-bar">
+            <button class="filter-chip active" data-belum-status="semua">Semua Status</button>
+            <button class="filter-chip" data-belum-status="wajib">Wajib, Belum Absen</button>
+            <button class="filter-chip" data-belum-status="tidak_wajib">Tidak Wajib</button>
+          </div>
+          <div style="padding: 0 16px 10px;">
+            <div class="admin-search-wrap">
+              <span class="material-symbols-rounded">search</span>
+              <input type="text" id="admin-belum-search" placeholder="Cari nama guru/pegawai...">
+            </div>
+          </div>
+
+          <div class="admin-list-scroll" id="admin-belum-list">
             <div class="admin-list-empty">Memuat...</div>
           </div>
+          <div id="admin-belum-more-wrap"></div>
         </div>
 
         <!-- Section header bulanan -->
@@ -1055,7 +1074,10 @@
 				style="width:100%;padding:10px 10px 10px 38px;border:1.5px solid var(--gray-200);border-radius:var(--radius-md);font-size:13px;font-family:var(--font-main);background:var(--gray-50);outline:none;" />
 			</div>
 		  </div>
-		  <div class="admin-filter-bar" id="jadwal-list-guru">
+		  <div class="jadwal-guru-list" id="jadwal-list-guru">
+			<!-- diisi otomatis -->
+		  </div>
+		  <div class="jadwal-guru-pagination" id="jadwal-guru-pagination">
 			<!-- diisi otomatis -->
 		  </div>
 		</div>
@@ -1117,8 +1139,23 @@
 	  </div>
 	  <div class="page-content" style="padding-bottom:16px;">
 	 
+		<!-- Toggle mode filter: Per Bulan / Rentang Tanggal.
+			 Hanya tampil untuk admin/kepsek saat melihat rekap SEMUA guru &
+			 pegawai (dipakai khusus untuk Cetak PDF Semua Guru/Pegawai).
+			 Begitu 1 guru dipilih di dropdown pencarian, wrap ini
+			 disembunyikan dan otomatis kembali ke mode "Per Bulan" —
+			 laporan per-guru/individu TIDAK terpengaruh sama sekali. -->
+		<div id="laporan-mode-filter-wrap" style="display:none;padding:12px 16px 0;">
+		  <div style="display:flex;">
+			<button type="button" class="laporan-mode-btn active" data-mode="bulan"
+			  style="flex:1;padding:8px 4px;border:1.5px solid var(--primary-600);background:var(--primary-600);color:#fff;border-radius:var(--radius-md) 0 0 var(--radius-md);font-size:12px;font-weight:600;font-family:var(--font-main);cursor:pointer;">Per Bulan</button>
+			<button type="button" class="laporan-mode-btn" data-mode="rentang"
+			  style="flex:1;padding:8px 4px;border:1.5px solid var(--primary-600);border-left:none;background:#fff;color:var(--primary-600);border-radius:0 var(--radius-md) var(--radius-md) 0;font-size:12px;font-weight:600;font-family:var(--font-main);cursor:pointer;">Rentang Tanggal</button>
+		  </div>
+		</div>
+
 		<!-- Filter bulan & tahun -->
-		<div style="padding:12px 16px;display:flex;gap:8px;">
+		<div id="laporan-filter-bulan-wrap" style="padding:12px 16px;display:flex;gap:8px;">
 		  <select id="laporan-bulan" style="flex:1;padding:10px 12px;border:1.5px solid var(--gray-200);border-radius:var(--radius-md);font-size:13px;font-family:var(--font-main);background:var(--gray-50);outline:none;">
 			<option value="1">Januari</option><option value="2">Februari</option>
 			<option value="3">Maret</option><option value="4">April</option>
@@ -1129,6 +1166,15 @@
 		  </select>
 		  <select id="laporan-tahun" style="width:90px;padding:10px 12px;border:1.5px solid var(--gray-200);border-radius:var(--radius-md);font-size:13px;font-family:var(--font-main);background:var(--gray-50);outline:none;"></select>
 		  <button id="btn-laporan-filter" class="btn-primary" style="width:auto;padding:10px 16px;font-size:13px;white-space:nowrap;">
+			<span class="material-symbols-rounded" style="font-size:18px;">search</span>
+		  </button>
+		</div>
+
+		<!-- Filter rentang tanggal (khusus rekap semua guru/pegawai) -->
+		<div id="laporan-filter-rentang-wrap" style="display:none;padding:0 16px 12px;gap:8px;">
+		  <input type="date" id="laporan-tgl-dari" style="flex:1;padding:10px 12px;border:1.5px solid var(--gray-200);border-radius:var(--radius-md);font-size:13px;font-family:var(--font-main);background:var(--gray-50);outline:none;" />
+		  <input type="date" id="laporan-tgl-sampai" style="flex:1;padding:10px 12px;border:1.5px solid var(--gray-200);border-radius:var(--radius-md);font-size:13px;font-family:var(--font-main);background:var(--gray-50);outline:none;" />
+		  <button id="btn-laporan-filter-rentang" class="btn-primary" style="width:auto;padding:10px 16px;font-size:13px;white-space:nowrap;">
 			<span class="material-symbols-rounded" style="font-size:18px;">search</span>
 		  </button>
 		</div>
@@ -1698,7 +1744,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <p style="font-size:14px;color:var(--gray-600);margin-bottom:20px;">Anda akan keluar dari aplikasi. Pastikan Anda sudah melakukan absen pulang.</p>
+        <p style="font-size:14px;color:var(--gray-600);margin-bottom:20px;">Anda akan keluar dari aplikasi Sitaba.Sampai jumpa.</p>
         <div style="display:flex;gap:10px;">
           <button class="btn-tolak" id="btn-batal-logout" style="flex:1;">Batal</button>
           <button class="btn-primary" id="btn-konfirm-logout" style="flex:2;">
