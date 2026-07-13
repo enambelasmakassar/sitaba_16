@@ -1150,7 +1150,9 @@
 			<button type="button" class="laporan-mode-btn active" data-mode="bulan"
 			  style="flex:1;padding:8px 4px;border:1.5px solid var(--primary-600);background:var(--primary-600);color:#fff;border-radius:var(--radius-md) 0 0 var(--radius-md);font-size:12px;font-weight:600;font-family:var(--font-main);cursor:pointer;">Per Bulan</button>
 			<button type="button" class="laporan-mode-btn" data-mode="rentang"
-			  style="flex:1;padding:8px 4px;border:1.5px solid var(--primary-600);border-left:none;background:#fff;color:var(--primary-600);border-radius:0 var(--radius-md) var(--radius-md) 0;font-size:12px;font-weight:600;font-family:var(--font-main);cursor:pointer;">Rentang Tanggal</button>
+			  style="flex:1;padding:8px 4px;border:1.5px solid var(--primary-600);border-left:none;background:#fff;color:var(--primary-600);font-size:12px;font-weight:600;font-family:var(--font-main);cursor:pointer;">Rentang Tanggal</button>
+			<button type="button" class="laporan-mode-btn" data-mode="harian"
+			  style="flex:1;padding:8px 4px;border:1.5px solid var(--primary-600);border-left:none;background:#fff;color:var(--primary-600);border-radius:0 var(--radius-md) var(--radius-md) 0;font-size:12px;font-weight:600;font-family:var(--font-main);cursor:pointer;">Harian</button>
 		  </div>
 		</div>
 
@@ -1176,6 +1178,16 @@
 		  <input type="date" id="laporan-tgl-sampai" style="flex:1;padding:10px 12px;border:1.5px solid var(--gray-200);border-radius:var(--radius-md);font-size:13px;font-family:var(--font-main);background:var(--gray-50);outline:none;" />
 		  <button id="btn-laporan-filter-rentang" class="btn-primary" style="width:auto;padding:10px 16px;font-size:13px;white-space:nowrap;">
 			<span class="material-symbols-rounded" style="font-size:18px;">search</span>
+		  </button>
+		</div>
+
+		<!-- Filter tanggal tunggal (mode Harian — cetak PDF gabungan semua
+			 guru/kepsek/pegawai untuk 1 hari). Tidak menampilkan rekap di
+			 layar, langsung generate PDF begitu tombol dipencet. -->
+		<div id="laporan-filter-harian-wrap" style="display:none;padding:0 16px 12px;gap:8px;">
+		  <input type="date" id="laporan-tgl-harian" style="flex:1;padding:10px 12px;border:1.5px solid var(--gray-200);border-radius:var(--radius-md);font-size:13px;font-family:var(--font-main);background:var(--gray-50);outline:none;" />
+		  <button id="btn-laporan-cetak-harian" class="btn-primary" style="width:auto;padding:10px 16px;font-size:13px;white-space:nowrap;">
+			<span class="material-symbols-rounded" style="font-size:18px;">print</span> Cetak PDF
 		  </button>
 		</div>
 	 
