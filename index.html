@@ -317,263 +317,9 @@
         </button>
       </div>
 
-      <!-- ============================================================
-           ADMIN DASHBOARD — hanya tampil untuk admin/kepsek
-           Diisi oleh muatAdminDashboard() saat renderBeranda()
-      ============================================================ -->
-      <div id="admin-dashboard-wrap">
+      <!-- Konten "Ringkasan Sekolah Hari Ini" s.d "Cek Kehadiran Guru per Hari"
+           sudah dipindah ke halaman tab "Rekap" tersendiri. -->
 
-        <!-- Divider section header -->
-        <div class="section-header" style="margin-top:4px;">
-          <span class="section-title" id="admin-dash-section-title">Ringkasan Sekolah Hari Ini</span>
-        </div>
-
-        <!-- Bar: hari ini + status hari kerja/libur (#12) -->
-        <div class="admin-day-status-bar" id="admin-day-bar">
-          <div class="admin-day-status-icon kerja" id="admin-day-icon">
-            <span class="material-symbols-rounded">today</span>
-          </div>
-          <div class="admin-day-status-text">
-            <div class="admin-day-status-title" id="admin-day-title">Memuat...</div>
-            <div class="admin-day-status-sub"   id="admin-day-sub"></div>
-          </div>
-          <div class="admin-day-libur-chip hidden" id="admin-day-libur-chip">Libur</div>
-        </div>
-
-        <!-- Kartu status kepsek (#9) — hanya tampil untuk role kepsek -->
-        <div class="admin-kepsek-status-card hidden" id="admin-kepsek-status">
-          <div class="admin-kepsek-avatar" id="admin-kepsek-avatar"></div>
-          <div class="admin-kepsek-info">
-            <div class="admin-kepsek-label">Status Kehadiran Saya</div>
-            <div class="admin-kepsek-nama" id="admin-kepsek-nama">-</div>
-          </div>
-          <div class="admin-kepsek-chip belum" id="admin-kepsek-chip">Belum Absen</div>
-        </div>
-
-        <!-- 5 kartu KPI angka besar (#1) -->
-        <div class="admin-kpi-grid">
-          <div class="admin-kpi-card full-width" id="admin-kpi-total"
-               onclick="navigasiAdminDash('laporan')">
-            <div class="admin-kpi-top">
-              <div class="admin-kpi-icon blue">
-                <span class="material-symbols-rounded">groups</span>
-              </div>
-            </div>
-            <div class="admin-kpi-value" id="admin-kpi-total-val">-</div>
-            <div class="admin-kpi-label">Total Guru &amp; Pegawai</div>
-          </div>
-
-          <div class="admin-kpi-card" id="admin-kpi-hadir"
-               onclick="navigasiAdminDash('laporan')">
-            <div class="admin-kpi-top">
-              <div class="admin-kpi-icon green">
-                <span class="material-symbols-rounded">check_circle</span>
-              </div>
-            </div>
-            <div class="admin-kpi-value" id="admin-kpi-hadir-val">-</div>
-            <div class="admin-kpi-label">Sudah Hadir</div>
-          </div>
-
-          <div class="admin-kpi-card" id="admin-kpi-terlambat"
-               onclick="navigasiAdminDash('laporan')">
-            <div class="admin-kpi-top">
-              <div class="admin-kpi-icon orange">
-                <span class="material-symbols-rounded">schedule</span>
-              </div>
-            </div>
-            <div class="admin-kpi-value" id="admin-kpi-terlambat-val">-</div>
-            <div class="admin-kpi-label">Terlambat</div>
-          </div>
-
-          <div class="admin-kpi-card" id="admin-kpi-izin"
-               onclick="navigasiAdminDash('izin-kelola')">
-            <div class="admin-kpi-top">
-              <div class="admin-kpi-icon gray">
-                <span class="material-symbols-rounded">medical_services</span>
-              </div>
-              <!-- Badge izin pending (#10) -->
-              <div class="admin-kpi-badge" id="admin-kpi-pending-badge">0</div>
-            </div>
-            <div class="admin-kpi-value" id="admin-kpi-izin-val">-</div>
-            <div class="admin-kpi-label">Izin / Sakit</div>
-          </div>
-
-          <div class="admin-kpi-card" id="admin-kpi-belum"
-               onclick="navigasiAdminDash('laporan')">
-            <div class="admin-kpi-top">
-              <div class="admin-kpi-icon red">
-                <span class="material-symbols-rounded">person_off</span>
-              </div>
-            </div>
-            <div class="admin-kpi-value" id="admin-kpi-belum-val">-</div>
-            <div class="admin-kpi-label">Belum Absen</div>
-          </div>
-        </div>
-
-        <!-- Progress bar kehadiran (#2) -->
-        <div class="admin-progress-wrap" id="admin-progress-wrap">
-          <div class="admin-progress-header">
-            <div class="admin-progress-label">Kehadiran Hari Ini</div>
-            <div class="admin-progress-pct" id="admin-progress-pct">0%</div>
-          </div>
-          <div class="admin-progress-track">
-            <div class="admin-progress-fill" id="admin-progress-fill" style="width:0%"></div>
-          </div>
-          <div class="admin-progress-sub" id="admin-progress-sub">Memuat data...</div>
-        </div>
-
-        <!-- GPS mencurigakan (#13) — hanya muncul kalau ada -->
-        <div class="admin-gps-card" id="admin-gps-card">
-          <div class="admin-gps-header">
-            <span class="material-symbols-rounded" style="font-size:18px;color:var(--danger-600);">fmd_bad</span>
-            <div class="admin-gps-title">Lokasi Mencurigakan Hari Ini</div>
-          </div>
-          <div id="admin-gps-list"></div>
-        </div>
-
-        <!-- Daftar terlambat hari ini (#4) -->
-        <div class="admin-list-card" id="admin-terlambat-card">
-          <div class="admin-list-header">
-            <div class="admin-list-title-wrap">
-              <div class="admin-list-icon orange">
-                <span class="material-symbols-rounded">schedule</span>
-              </div>
-              <div class="admin-list-title">Terlambat Hari Ini</div>
-            </div>
-            <div class="admin-list-count orange" id="admin-terlambat-count">0</div>
-          </div>
-          <div id="admin-terlambat-list">
-            <div class="admin-list-empty">Memuat...</div>
-          </div>
-        </div>
-
-        <!-- Daftar belum absen (#3) -->
-        <div class="admin-list-card" id="admin-belum-card">
-          <div class="admin-list-header">
-            <div class="admin-list-title-wrap">
-              <div class="admin-list-icon gray">
-                <span class="material-symbols-rounded">person_off</span>
-              </div>
-              <div class="admin-list-title">Belum Absen</div>
-            </div>
-            <div class="admin-list-count gray" id="admin-belum-count">0</div>
-          </div>
-
-          <div class="admin-filter-bar">
-            <button class="filter-chip active" data-belum-role="semua">Semua Role</button>
-            <button class="filter-chip" data-belum-role="guru">Guru</button>
-            <button class="filter-chip" data-belum-role="pegawai">Pegawai</button>
-          </div>
-          <div class="admin-filter-bar">
-            <button class="filter-chip active" data-belum-status="semua">Semua Status</button>
-            <button class="filter-chip" data-belum-status="wajib">Wajib, Belum Absen</button>
-            <button class="filter-chip" data-belum-status="tidak_wajib">Tidak Wajib</button>
-          </div>
-          <div style="padding: 0 16px 10px;">
-            <div class="admin-search-wrap">
-              <span class="material-symbols-rounded">search</span>
-              <input type="text" id="admin-belum-search" placeholder="Cari nama guru/pegawai...">
-            </div>
-          </div>
-
-          <div class="admin-list-scroll" id="admin-belum-list">
-            <div class="admin-list-empty">Memuat...</div>
-          </div>
-          <div id="admin-belum-more-wrap"></div>
-        </div>
-
-        <!-- Section header bulanan -->
-        <div class="section-header" style="margin-top:4px;">
-          <span class="section-title" id="admin-dash-bulanan-title">Rekap Bulan Ini</span>
-        </div>
-
-        <!-- Persentase kehadiran bulanan (#7) -->
-        <div class="admin-bulanan-wrap">
-          <div class="admin-bulanan-pct-card" id="admin-bulanan-pct-card"
-               onclick="navigasiAdminDash('laporan')">
-            <div>
-              <div class="admin-bulanan-pct-num">
-                <span id="admin-bulanan-pct-val">-</span><span class="admin-bulanan-pct-sup">%</span>
-              </div>
-            </div>
-            <div class="admin-bulanan-pct-info">
-              <div class="admin-bulanan-pct-label">Kehadiran Rata-rata</div>
-              <div class="admin-bulanan-pct-sub" id="admin-bulanan-pct-sub">Bulan ini</div>
-            </div>
-          </div>
-
-          <!-- Top Alpa bulan ini (#5) -->
-          <div class="admin-top-list-card" id="admin-top-alpa-card">
-            <div class="admin-top-list-header">
-              <div class="admin-top-list-icon red">
-                <span class="material-symbols-rounded">warning</span>
-              </div>
-              <div class="admin-top-list-title">Perlu Perhatian — Alpa Terbanyak</div>
-            </div>
-            <div id="admin-top-alpa-list"></div>
-          </div>
-
-          <!-- Top Sakit/Izin bulan ini (#6) -->
-          <div class="admin-top-list-card" id="admin-top-sakit-card">
-            <div class="admin-top-list-header">
-              <div class="admin-top-list-icon orange">
-                <span class="material-symbols-rounded">sick</span>
-              </div>
-              <div class="admin-top-list-title">Sering Izin / Sakit</div>
-            </div>
-            <div id="admin-top-sakit-list"></div>
-          </div>
-        </div>
-
-        <!-- Grafik tren harian (#8) -->
-        <div class="admin-chart-card">
-          <div class="admin-chart-header">
-            <div>
-              <div class="admin-chart-title">Tren Kehadiran Harian</div>
-              <div class="admin-chart-sub" id="admin-chart-sub">Bulan ini</div>
-            </div>
-          </div>
-          <div class="admin-chart-canvas-wrap">
-            <canvas id="admin-tren-chart"></canvas>
-          </div>
-        </div>
-
-      </div><!-- /admin-dashboard-wrap -->
-
-      <!-- ============================================================
-           CEK KEHADIRAN GURU PER HARI — Admin/Kepsek
-           Terpisah dari list "Terlambat"/"Belum Absen" di atas (yang
-           selalu hari ini). Di sini admin bisa pilih guru & tanggal
-           bebas. Diisi oleh muatCekHarianAdmin() saat renderBeranda()
-      ============================================================ -->
-      <div id="cek-harian-admin-wrap" class="hidden">
-        <div class="section-header" style="margin-top:4px;">
-          <span class="section-title">Cek Kehadiran Guru per Hari</span>
-        </div>
-        <div class="admin-list-card" id="cek-harian-admin-card">
-          <div style="padding:12px 16px 8px;position:relative;">
-            <span class="material-symbols-rounded" style="position:absolute;left:26px;top:50%;transform:translateY(-50%);font-size:18px;color:var(--gray-500);pointer-events:none;">person_search</span>
-            <input type="text" id="cek-harian-admin-guru-search" placeholder="Cari nama guru/pegawai..." autocomplete="off"
-              style="width:100%;padding:10px 12px 10px 36px;border:1.5px solid var(--gray-200);border-radius:var(--radius-md);font-size:13px;font-family:var(--font-main);background:var(--gray-50);outline:none;" />
-            <div id="cek-harian-admin-guru-dropdown" style="display:none;position:absolute;z-index:100;left:16px;right:16px;background:#fff;border:1.5px solid var(--gray-200);border-radius:var(--radius-md);box-shadow:var(--shadow-md);max-height:200px;overflow-y:auto;margin-top:4px;"></div>
-          </div>
-          <div id="cek-harian-admin-guru-terpilih" style="display:none;margin:0 16px 10px;padding:6px 10px;background:var(--primary-50);border-radius:var(--radius-sm);font-size:12px;color:var(--primary-700);font-weight:600;align-items:center;justify-content:space-between;">
-            <span id="cek-harian-admin-guru-terpilih-nama"></span>
-            <button type="button" onclick="clearGuruCekHarianAdmin()" style="border:none;background:none;color:var(--primary-700);cursor:pointer;font-size:16px;line-height:1;">×</button>
-          </div>
-          <div class="admin-filter-bar" id="cek-harian-admin-chips" style="padding:0 16px 4px;">
-            <button class="filter-chip active" data-range="hari-ini" type="button">Hari Ini</button>
-            <button class="filter-chip" data-range="kemarin" type="button">Kemarin</button>
-          </div>
-          <div style="padding:4px 16px 12px;">
-            <input type="date" id="cek-harian-admin-tanggal"
-              style="width:100%;padding:9px 12px;border:1.5px solid var(--gray-200);border-radius:var(--radius-md);font-size:13px;font-family:var(--font-main);background:var(--gray-50);outline:none;color:var(--gray-700);" />
-          </div>
-          <div id="cek-harian-admin-content">
-            <div class="admin-list-empty">Pilih guru &amp; tanggal dulu</div>
-          </div>
-        </div>
-      </div>
 
       <!-- Pengumuman Terbaru -->
       <div class="section-header">
@@ -1219,6 +965,368 @@
 	 
 	  </div>
 	</div>
+	<!-- ================================================================
+		 PAGE: REKAP (Ringkasan Sekolah Hari Ini s.d Cek Kehadiran Guru per Hari)
+		 Khusus admin/kepsek — dipindah keluar dari Beranda supaya beranda
+		 lebih ringkas. Elemen & fungsi pengisi datanya (muatAdminDashboard,
+		 muatCekHarianAdmin) TIDAK berubah, cuma lokasi tampilnya saja.
+	================================================================ -->
+	<div class="page" id="page-rekap">
+	  <div class="app-header">
+		<button class="header-back-btn visible" id="btn-back-rekap">
+		  <span class="material-symbols-rounded">arrow_back</span>
+		</button>
+		<div class="header-title-group">
+		  <div class="header-title">Rekap</div>
+		  <div class="header-subtitle">Ringkasan &amp; kehadiran sekolah</div>
+		</div>
+	  </div>
+	  <div class="page-content" style="padding-bottom:16px;">
+
+      <!-- ============================================================
+           FILTER TANGGAL — mengontrol tanggal seluruh ringkasan harian
+           di bawah (KPI, terlambat, belum absen, GPS, absen pulang,
+           izin/sakit). Rekap bulanan (Top Alpa/Sakit, grafik tren) TIDAK
+           ikut filter ini, selalu ikut bulan berjalan.
+           Diatur oleh initFilterRekapTanggal().
+      ============================================================ -->
+      <div class="admin-list-card" id="rekap-filter-tanggal-card" style="margin-top:4px;">
+        <div class="admin-filter-bar" id="rekap-tanggal-chips" style="padding:12px 16px 4px;">
+          <button class="filter-chip active" data-rekap-range="hari-ini" type="button">Hari Ini</button>
+          <button class="filter-chip" data-rekap-range="kemarin" type="button">Kemarin</button>
+        </div>
+        <div style="padding:4px 16px 12px;">
+          <input type="date" id="rekap-tanggal-input"
+            style="width:100%;padding:9px 12px;border:1.5px solid var(--gray-200);border-radius:var(--radius-md);font-size:13px;font-family:var(--font-main);background:var(--gray-50);outline:none;color:var(--gray-700);" />
+        </div>
+      </div>
+
+      <!-- ============================================================
+           ADMIN DASHBOARD — hanya tampil untuk admin/kepsek
+           Diisi oleh muatAdminDashboard() saat renderBeranda()
+      ============================================================ -->
+      <div id="admin-dashboard-wrap">
+
+        <!-- Divider section header -->
+        <div class="section-header" style="margin-top:4px;">
+          <span class="section-title" id="admin-dash-section-title">Ringkasan Sekolah Hari Ini</span>
+        </div>
+
+        <!-- Bar: hari ini + status hari kerja/libur (#12) -->
+        <div class="admin-day-status-bar" id="admin-day-bar">
+          <div class="admin-day-status-icon kerja" id="admin-day-icon">
+            <span class="material-symbols-rounded">today</span>
+          </div>
+          <div class="admin-day-status-text">
+            <div class="admin-day-status-title" id="admin-day-title">Memuat...</div>
+            <div class="admin-day-status-sub"   id="admin-day-sub"></div>
+          </div>
+          <div class="admin-day-libur-chip hidden" id="admin-day-libur-chip">Libur</div>
+        </div>
+
+        <!-- Kartu status kepsek (#9) — hanya tampil untuk role kepsek -->
+        <div class="admin-kepsek-status-card hidden" id="admin-kepsek-status">
+          <div class="admin-kepsek-avatar" id="admin-kepsek-avatar"></div>
+          <div class="admin-kepsek-info">
+            <div class="admin-kepsek-label">Status Kehadiran Saya</div>
+            <div class="admin-kepsek-nama" id="admin-kepsek-nama">-</div>
+          </div>
+          <div class="admin-kepsek-chip belum" id="admin-kepsek-chip">Belum Absen</div>
+        </div>
+
+        <!-- 5 kartu KPI angka besar (#1) -->
+        <div class="admin-kpi-grid">
+          <div class="admin-kpi-card full-width" id="admin-kpi-total"
+               onclick="navigasiAdminDash('laporan')">
+            <div class="admin-kpi-top">
+              <div class="admin-kpi-icon blue">
+                <span class="material-symbols-rounded">groups</span>
+              </div>
+            </div>
+            <div class="admin-kpi-value" id="admin-kpi-total-val">-</div>
+            <div class="admin-kpi-label">Total Guru &amp; Pegawai</div>
+          </div>
+
+          <div class="admin-kpi-card" id="admin-kpi-hadir"
+               onclick="navigasiAdminDash('laporan')">
+            <div class="admin-kpi-top">
+              <div class="admin-kpi-icon green">
+                <span class="material-symbols-rounded">check_circle</span>
+              </div>
+            </div>
+            <div class="admin-kpi-value" id="admin-kpi-hadir-val">-</div>
+            <div class="admin-kpi-label">Sudah Hadir</div>
+          </div>
+
+          <div class="admin-kpi-card" id="admin-kpi-terlambat"
+               onclick="navigasiAdminDash('laporan')">
+            <div class="admin-kpi-top">
+              <div class="admin-kpi-icon orange">
+                <span class="material-symbols-rounded">schedule</span>
+              </div>
+            </div>
+            <div class="admin-kpi-value" id="admin-kpi-terlambat-val">-</div>
+            <div class="admin-kpi-label">Terlambat</div>
+          </div>
+
+          <div class="admin-kpi-card" id="admin-kpi-izin"
+               onclick="navigasiAdminDash('izin-kelola')">
+            <div class="admin-kpi-top">
+              <div class="admin-kpi-icon gray">
+                <span class="material-symbols-rounded">medical_services</span>
+              </div>
+              <!-- Badge izin pending (#10) -->
+              <div class="admin-kpi-badge" id="admin-kpi-pending-badge">0</div>
+            </div>
+            <div class="admin-kpi-value" id="admin-kpi-izin-val">-</div>
+            <div class="admin-kpi-label">Izin / Sakit</div>
+          </div>
+
+          <div class="admin-kpi-card" id="admin-kpi-belum"
+               onclick="navigasiAdminDash('laporan')">
+            <div class="admin-kpi-top">
+              <div class="admin-kpi-icon red">
+                <span class="material-symbols-rounded">person_off</span>
+              </div>
+            </div>
+            <div class="admin-kpi-value" id="admin-kpi-belum-val">-</div>
+            <div class="admin-kpi-label">Belum Absen</div>
+          </div>
+
+          <!-- Kartu Sudah Absen Pulang -->
+          <div class="admin-kpi-card full-width" id="admin-kpi-sudah-pulang">
+            <div class="admin-kpi-top">
+              <div class="admin-kpi-icon info">
+                <span class="material-symbols-rounded">logout</span>
+              </div>
+            </div>
+            <div class="admin-kpi-value" id="admin-kpi-sudah-pulang-val">-</div>
+            <div class="admin-kpi-label">Sudah Absen Pulang</div>
+            <div id="admin-kpi-sudah-pulang-sub" style="font-size:11px;color:var(--gray-500);font-weight:600;margin-top:2px;">Memuat...</div>
+          </div>
+        </div>
+
+        <!-- Progress bar kehadiran (#2) -->
+        <div class="admin-progress-wrap" id="admin-progress-wrap">
+          <div class="admin-progress-header">
+            <div class="admin-progress-label">Kehadiran Hari Ini</div>
+            <div class="admin-progress-pct" id="admin-progress-pct">0%</div>
+          </div>
+          <div class="admin-progress-track">
+            <div class="admin-progress-fill" id="admin-progress-fill" style="width:0%"></div>
+          </div>
+          <div class="admin-progress-sub" id="admin-progress-sub">Memuat data...</div>
+        </div>
+
+        <!-- GPS mencurigakan (#13) — hanya muncul kalau ada -->
+        <div class="admin-gps-card" id="admin-gps-card">
+          <div class="admin-gps-header">
+            <span class="material-symbols-rounded" style="font-size:18px;color:var(--danger-600);">fmd_bad</span>
+            <div class="admin-gps-title">Lokasi Mencurigakan Hari Ini</div>
+          </div>
+          <div id="admin-gps-list"></div>
+        </div>
+
+        <!-- Daftar terlambat hari ini (#4) -->
+        <div class="admin-list-card" id="admin-terlambat-card">
+          <div class="admin-list-header">
+            <div class="admin-list-title-wrap">
+              <div class="admin-list-icon orange">
+                <span class="material-symbols-rounded">schedule</span>
+              </div>
+              <div class="admin-list-title">Terlambat Hari Ini</div>
+            </div>
+            <div class="admin-list-count orange" id="admin-terlambat-count">0</div>
+          </div>
+          <div class="admin-list-scroll" id="admin-terlambat-list">
+            <div class="admin-list-empty">Memuat...</div>
+          </div>
+          <div id="admin-terlambat-more-wrap"></div>
+        </div>
+
+        <!-- Daftar belum absen (#3) -->
+        <div class="admin-list-card" id="admin-belum-card">
+          <div class="admin-list-header">
+            <div class="admin-list-title-wrap">
+              <div class="admin-list-icon gray">
+                <span class="material-symbols-rounded">person_off</span>
+              </div>
+              <div class="admin-list-title">Belum Absen</div>
+            </div>
+            <div class="admin-list-count gray" id="admin-belum-count">0</div>
+          </div>
+
+          <div class="admin-filter-bar">
+            <button class="filter-chip active" data-belum-role="semua">Semua Role</button>
+            <button class="filter-chip" data-belum-role="guru">Guru</button>
+            <button class="filter-chip" data-belum-role="pegawai">Pegawai</button>
+          </div>
+          <div class="admin-filter-bar">
+            <button class="filter-chip active" data-belum-status="semua">Semua Status</button>
+            <button class="filter-chip" data-belum-status="wajib">Wajib, Belum Absen</button>
+            <button class="filter-chip" data-belum-status="tidak_wajib">Tidak Wajib</button>
+          </div>
+          <div style="padding: 0 16px 10px;">
+            <div class="admin-search-wrap">
+              <span class="material-symbols-rounded">search</span>
+              <input type="text" id="admin-belum-search" placeholder="Cari nama guru/pegawai...">
+            </div>
+          </div>
+
+          <div class="admin-list-scroll" id="admin-belum-list">
+            <div class="admin-list-empty">Memuat...</div>
+          </div>
+          <div id="admin-belum-more-wrap"></div>
+        </div>
+
+        <!-- Daftar izin/sakit pada tanggal terpilih -->
+        <div class="admin-list-card" id="admin-izin-sakit-card">
+          <div class="admin-list-header">
+            <div class="admin-list-title-wrap">
+              <div class="admin-list-icon orange">
+                <span class="material-symbols-rounded">medical_services</span>
+              </div>
+              <div class="admin-list-title">Izin / Sakit</div>
+            </div>
+            <div class="admin-list-count orange" id="admin-izin-sakit-count">0</div>
+          </div>
+          <div class="admin-list-scroll" id="admin-izin-sakit-list">
+            <div class="admin-list-empty">Memuat...</div>
+          </div>
+          <div id="admin-izin-sakit-more-wrap"></div>
+        </div>
+
+        <!-- Daftar belum absen pulang (sudah masuk, belum checkout) -->
+        <div class="admin-list-card" id="admin-belum-pulang-card">
+          <div class="admin-list-header">
+            <div class="admin-list-title-wrap">
+              <div class="admin-list-icon blue">
+                <span class="material-symbols-rounded">door_open</span>
+              </div>
+              <div class="admin-list-title">Belum Absen Pulang</div>
+            </div>
+            <div class="admin-list-count blue" id="admin-belum-pulang-count">0</div>
+          </div>
+          <div class="admin-list-scroll" id="admin-belum-pulang-list">
+            <div class="admin-list-empty">Memuat...</div>
+          </div>
+          <div id="admin-belum-pulang-more-wrap"></div>
+        </div>
+
+        <!-- Daftar absen cepat pulang -->
+        <div class="admin-list-card" id="admin-pulang-cepat-card">
+          <div class="admin-list-header">
+            <div class="admin-list-title-wrap">
+              <div class="admin-list-icon info">
+                <span class="material-symbols-rounded">directions_run</span>
+              </div>
+              <div class="admin-list-title">Absen Cepat Pulang</div>
+            </div>
+            <div class="admin-list-count info" id="admin-pulang-cepat-count">0</div>
+          </div>
+          <div class="admin-list-scroll" id="admin-pulang-cepat-list">
+            <div class="admin-list-empty">Memuat...</div>
+          </div>
+          <div id="admin-pulang-cepat-more-wrap"></div>
+        </div>
+
+        <!-- Section header bulanan -->
+        <div class="section-header" style="margin-top:4px;">
+          <span class="section-title" id="admin-dash-bulanan-title">Rekap Bulan Ini</span>
+        </div>
+
+        <!-- Persentase kehadiran bulanan (#7) -->
+        <div class="admin-bulanan-wrap">
+          <div class="admin-bulanan-pct-card" id="admin-bulanan-pct-card"
+               onclick="navigasiAdminDash('laporan')">
+            <div>
+              <div class="admin-bulanan-pct-num">
+                <span id="admin-bulanan-pct-val">-</span><span class="admin-bulanan-pct-sup">%</span>
+              </div>
+            </div>
+            <div class="admin-bulanan-pct-info">
+              <div class="admin-bulanan-pct-label">Kehadiran Rata-rata</div>
+              <div class="admin-bulanan-pct-sub" id="admin-bulanan-pct-sub">Bulan ini</div>
+            </div>
+          </div>
+
+          <!-- Top Alpa bulan ini (#5) -->
+          <div class="admin-top-list-card" id="admin-top-alpa-card">
+            <div class="admin-top-list-header">
+              <div class="admin-top-list-icon red">
+                <span class="material-symbols-rounded">warning</span>
+              </div>
+              <div class="admin-top-list-title">Perlu Perhatian — Alpa Terbanyak</div>
+            </div>
+            <div id="admin-top-alpa-list"></div>
+          </div>
+
+          <!-- Top Sakit/Izin bulan ini (#6) -->
+          <div class="admin-top-list-card" id="admin-top-sakit-card">
+            <div class="admin-top-list-header">
+              <div class="admin-top-list-icon orange">
+                <span class="material-symbols-rounded">sick</span>
+              </div>
+              <div class="admin-top-list-title">Sering Izin / Sakit</div>
+            </div>
+            <div id="admin-top-sakit-list"></div>
+          </div>
+        </div>
+
+        <!-- Grafik tren harian (#8) -->
+        <div class="admin-chart-card">
+          <div class="admin-chart-header">
+            <div>
+              <div class="admin-chart-title">Tren Kehadiran Harian</div>
+              <div class="admin-chart-sub" id="admin-chart-sub">Bulan ini</div>
+            </div>
+          </div>
+          <div class="admin-chart-canvas-wrap">
+            <canvas id="admin-tren-chart"></canvas>
+          </div>
+        </div>
+
+      </div><!-- /admin-dashboard-wrap -->
+
+      <!-- ============================================================
+           CEK KEHADIRAN GURU PER HARI — Admin/Kepsek
+           Terpisah dari list "Terlambat"/"Belum Absen" di atas (yang
+           selalu hari ini). Di sini admin bisa pilih guru & tanggal
+           bebas. Diisi oleh muatCekHarianAdmin() saat renderBeranda()
+      ============================================================ -->
+      <div id="cek-harian-admin-wrap" class="hidden">
+        <div class="section-header" style="margin-top:4px;">
+          <span class="section-title">Cek Kehadiran Guru per Hari</span>
+        </div>
+        <div class="admin-list-card" id="cek-harian-admin-card">
+          <div style="padding:12px 16px 8px;position:relative;">
+            <span class="material-symbols-rounded" style="position:absolute;left:26px;top:50%;transform:translateY(-50%);font-size:18px;color:var(--gray-500);pointer-events:none;">person_search</span>
+            <input type="text" id="cek-harian-admin-guru-search" placeholder="Cari nama guru/pegawai..." autocomplete="off"
+              style="width:100%;padding:10px 12px 10px 36px;border:1.5px solid var(--gray-200);border-radius:var(--radius-md);font-size:13px;font-family:var(--font-main);background:var(--gray-50);outline:none;" />
+            <div id="cek-harian-admin-guru-dropdown" style="display:none;position:absolute;z-index:100;left:16px;right:16px;background:#fff;border:1.5px solid var(--gray-200);border-radius:var(--radius-md);box-shadow:var(--shadow-md);max-height:200px;overflow-y:auto;margin-top:4px;"></div>
+          </div>
+          <div id="cek-harian-admin-guru-terpilih" style="display:none;margin:0 16px 10px;padding:6px 10px;background:var(--primary-50);border-radius:var(--radius-sm);font-size:12px;color:var(--primary-700);font-weight:600;align-items:center;justify-content:space-between;">
+            <span id="cek-harian-admin-guru-terpilih-nama"></span>
+            <button type="button" onclick="clearGuruCekHarianAdmin()" style="border:none;background:none;color:var(--primary-700);cursor:pointer;font-size:16px;line-height:1;">×</button>
+          </div>
+          <div class="admin-filter-bar" id="cek-harian-admin-chips" style="padding:0 16px 4px;">
+            <button class="filter-chip active" data-range="hari-ini" type="button">Hari Ini</button>
+            <button class="filter-chip" data-range="kemarin" type="button">Kemarin</button>
+          </div>
+          <div style="padding:4px 16px 12px;">
+            <input type="date" id="cek-harian-admin-tanggal"
+              style="width:100%;padding:9px 12px;border:1.5px solid var(--gray-200);border-radius:var(--radius-md);font-size:13px;font-family:var(--font-main);background:var(--gray-50);outline:none;color:var(--gray-700);" />
+          </div>
+          <div id="cek-harian-admin-content">
+            <div class="admin-list-empty">Pilih guru &amp; tanggal dulu</div>
+          </div>
+        </div>
+      </div>
+
+		<div style="height: 16px;"></div>
+	  </div>
+	</div>
+
 	 
 	<!-- ================================================================
 		 PAGE: KELOLA GURU
@@ -1639,6 +1747,13 @@
         <span class="material-symbols-rounded">bar_chart</span>
       </div>
       <span class="nav-label">Laporan</span>
+    </button>
+
+    <button class="nav-item nav-hidden" id="nav-item-rekap" data-page="rekap">
+      <div class="nav-icon-wrap">
+        <span class="material-symbols-rounded">dashboard</span>
+      </div>
+      <span class="nav-label">Rekap</span>
     </button>
 
     <button class="nav-item nav-absen" id="nav-item-absen" data-page="absen">
