@@ -320,6 +320,15 @@
       <!-- Konten "Ringkasan Sekolah Hari Ini" s.d "Cek Kehadiran Guru per Hari"
            sudah dipindah ke halaman tab "Rekap" tersendiri. -->
 
+      <!-- Aplikasi Pendukung — section tersendiri (bukan bagian dari Menu
+           Cepat), tampil untuk admin & guru/pegawai. Diisi dinamis lewat
+           script.js (muatAppLainBeranda), 1 tombol per aplikasi aktif di
+           tabel `aplikasi_lain`. Section header + grid disembunyikan
+           otomatis kalau belum ada aplikasi yang ditambahkan admin. -->
+      <div class="section-header hidden" id="section-app-lain">
+        <span class="section-title">Aplikasi Pendukung</span>
+      </div>
+      <div class="quick-menu-grid hidden" id="quick-menu-app-lain-container"></div>
 
       <!-- Pengumuman Terbaru -->
       <div class="section-header">
@@ -630,6 +639,16 @@
           <div class="settings-item-body">
             <div class="settings-item-title">Kelola Akun Guru</div>
             <div class="settings-item-sub">Tambah, edit, nonaktifkan akun</div>
+          </div>
+          <div class="settings-item-arrow"><span class="material-symbols-rounded">chevron_right</span></div>
+        </div>
+        <div class="settings-item hidden" id="menu-kelola-aplikasi-lain">
+          <div class="settings-item-icon teal">
+            <span class="material-symbols-rounded">open_in_new</span>
+          </div>
+          <div class="settings-item-body">
+            <div class="settings-item-title">Kelola Aplikasi Lain</div>
+            <div class="settings-item-sub">Tombol pintasan di Menu Cepat Beranda</div>
           </div>
           <div class="settings-item-arrow"><span class="material-symbols-rounded">chevron_right</span></div>
         </div>
@@ -1397,6 +1416,105 @@
 		  <!-- diisi JS -->
 		</div>
 	 
+	  </div>
+	</div>
+	 
+	<!-- ================================================================
+		 PAGE: KELOLA APLIKASI LAIN (Admin) — daftar tombol pintasan
+		 yang tampil di Menu Cepat Beranda, untuk admin & guru/pegawai
+	================================================================ -->
+	<div class="page" id="page-kelola-aplikasi-lain">
+	  <div class="app-header">
+		<button class="header-back-btn visible" id="btn-back-kelola-aplikasi-lain">
+		  <span class="material-symbols-rounded">arrow_back</span>
+		</button>
+		<div class="header-title-group">
+		  <div class="header-title">Kelola Aplikasi Lain</div>
+		  <div class="header-subtitle">Tombol pintasan di Menu Cepat Beranda</div>
+		</div>
+		<div class="header-actions">
+		  <button class="header-btn" id="btn-tambah-aplikasi-lain">
+			<span class="material-symbols-rounded">add</span>
+		  </button>
+		</div>
+	  </div>
+	  <div class="page-content" style="padding:16px;">
+		<div id="kelola-aplikasi-lain-list">
+		  <!-- diisi JS -->
+		</div>
+	  </div>
+	</div>
+
+	<!-- MODAL: TAMBAH/EDIT APLIKASI LAIN -->
+	<div class="modal-overlay" id="modal-aplikasi-lain">
+	  <div class="modal-sheet">
+		<div class="modal-handle"></div>
+		<div class="modal-header">
+		  <div class="modal-title" id="modal-aplikasi-lain-title">Tambah Aplikasi</div>
+		  <button class="modal-close" id="close-modal-aplikasi-lain">
+			<span class="material-symbols-rounded">close</span>
+		  </button>
+		</div>
+		<div class="modal-body">
+		  <div class="form-group">
+			<label class="form-label">Nama Aplikasi</label>
+			<div class="input-wrap">
+			  <span class="material-symbols-rounded input-icon">apps</span>
+			  <input type="text" id="form-app-nama" placeholder="Contoh: Rapor Digital" />
+			</div>
+		  </div>
+		  <div class="form-group" style="margin-top:12px;">
+			<label class="form-label">Link Aplikasi</label>
+			<div class="input-wrap">
+			  <span class="material-symbols-rounded input-icon">link</span>
+			  <input type="url" id="form-app-link" placeholder="https://namaaplikasi.sekolah.sch.id" />
+			</div>
+		  </div>
+		  <div class="form-group" style="margin-top:12px;">
+			<label class="form-label">Urutan Tampil</label>
+			<div class="input-wrap">
+			  <span class="material-symbols-rounded input-icon">low_priority</span>
+			  <input type="number" id="form-app-urutan" placeholder="0" min="0" step="1" />
+			</div>
+			<div style="font-size:11px;color:var(--gray-500);margin-top:6px;">Angka lebih kecil tampil lebih dulu di Aplikasi Pendukung.</div>
+		  </div>
+
+		  <div class="form-group" style="margin-top:12px;">
+			<label class="form-label">Ikon</label>
+			<div id="form-app-icon-grid" style="display:grid;grid-template-columns:repeat(6, 1fr);gap:8px;margin-top:4px;">
+			  <button type="button" class="app-icon-choice" data-icon="apps"><span class="material-symbols-rounded">apps</span></button>
+			  <button type="button" class="app-icon-choice" data-icon="school"><span class="material-symbols-rounded">school</span></button>
+			  <button type="button" class="app-icon-choice" data-icon="menu_book"><span class="material-symbols-rounded">menu_book</span></button>
+			  <button type="button" class="app-icon-choice" data-icon="local_library"><span class="material-symbols-rounded">local_library</span></button>
+			  <button type="button" class="app-icon-choice" data-icon="quiz"><span class="material-symbols-rounded">quiz</span></button>
+			  <button type="button" class="app-icon-choice" data-icon="assignment"><span class="material-symbols-rounded">assignment</span></button>
+			  <button type="button" class="app-icon-choice" data-icon="calculate"><span class="material-symbols-rounded">calculate</span></button>
+			  <button type="button" class="app-icon-choice" data-icon="science"><span class="material-symbols-rounded">science</span></button>
+			  <button type="button" class="app-icon-choice" data-icon="language"><span class="material-symbols-rounded">language</span></button>
+			  <button type="button" class="app-icon-choice" data-icon="palette"><span class="material-symbols-rounded">palette</span></button>
+			  <button type="button" class="app-icon-choice" data-icon="sports_soccer"><span class="material-symbols-rounded">sports_soccer</span></button>
+			  <button type="button" class="app-icon-choice" data-icon="computer"><span class="material-symbols-rounded">computer</span></button>
+			  <button type="button" class="app-icon-choice" data-icon="cloud"><span class="material-symbols-rounded">cloud</span></button>
+			  <button type="button" class="app-icon-choice" data-icon="dashboard"><span class="material-symbols-rounded">dashboard</span></button>
+			  <button type="button" class="app-icon-choice" data-icon="payments"><span class="material-symbols-rounded">payments</span></button>
+			  <button type="button" class="app-icon-choice" data-icon="groups"><span class="material-symbols-rounded">groups</span></button>
+			  <button type="button" class="app-icon-choice" data-icon="videocam"><span class="material-symbols-rounded">videocam</span></button>
+			  <button type="button" class="app-icon-choice" data-icon="backpack"><span class="material-symbols-rounded">backpack</span></button>
+			</div>
+			<input type="hidden" id="form-app-ikon" value="apps" />
+		  </div>
+
+		  <input type="hidden" id="form-app-id" />
+
+		  <div style="display:flex;gap:10px;margin-top:14px;">
+			<button class="btn-tolak hidden" id="btn-hapus-app-lain" style="flex:1;">
+			  <span class="material-symbols-rounded">delete</span> Hapus
+			</button>
+			<button class="btn-primary" id="btn-simpan-app-lain" style="flex:2;">
+			  <span class="material-symbols-rounded">save</span> Simpan
+			</button>
+		  </div>
+		</div>
 	  </div>
 	</div>
 	 
