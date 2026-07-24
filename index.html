@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="theme-color" content="#1565C0" />
+  <meta name="theme-color" content="#7E3549" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
@@ -11,7 +11,7 @@
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" href="icon-192.png" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
-  <title>SITABA — 16</title>
+  <title>SITABA | 16</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -259,7 +259,7 @@
 
       <!-- Quick Menu -->
       <div class="section-header">
-        <span class="section-title">Menu Utama</span>
+        <span class="section-title">Menu Cepat</span>
       </div>
       <div class="quick-menu-grid">
         <button class="quick-menu-item" id="qm-pengumuman">
@@ -1989,7 +1989,10 @@
         </button>
       </div>
       <div class="modal-body">
-        <p style="font-size:14px;color:var(--gray-600);margin-bottom:20px;">Anda akan keluar dari aplikasi Sitaba.Sampai jumpa.</p>
+        <div style="text-align:center;margin-bottom:12px;">
+          <img src="maskot-sitaba.png" alt="Maskot SITABA" style="width:92px;filter:drop-shadow(0 8px 12px rgba(95,39,57,0.28));" />
+        </div>
+        <p style="font-size:14px;color:var(--gray-600);text-align:center;margin-bottom:20px;">Yah, mau pulang duluan? 🥺<br>Sampai jumpa lagi ya di SITABA!</p>
         <div style="display:flex;gap:10px;">
           <button class="btn-tolak" id="btn-batal-logout" style="flex:1;">Batal</button>
           <button class="btn-primary" id="btn-konfirm-logout" style="flex:2;">
@@ -2232,6 +2235,16 @@
 	  </div>
 	</div>
 	
+
+  <!-- ================================================================
+       MASKOT SITABA — mengambang kanan bawah, goyang saat disentuh
+  ================================================================ -->
+  <div class="maskot-fab" id="maskotFab">
+    <div class="maskot-bubble" id="maskotBubble"></div>
+    <div class="maskot-float">
+      <img src="maskot-sitaba.png" class="maskot-img" id="maskotImg" alt="Maskot SITABA" />
+    </div>
+  </div>
 
 </div><!-- #app -->
 <script src="script.obfuscated.js"></script>
